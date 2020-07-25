@@ -12,6 +12,10 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     var pairNumber: Int
     var cards: Array<Card>
+    var score: Int
+    
+    
+    
     var indexOfChosenFaceUpCard: Int? {
         
         get{ cards.indices.filter { (cards[$0].isFaceUp) }.only }
@@ -27,6 +31,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     init(numberOfPairOfCards: Int  , cardContentFactory : (Int) -> CardContent) {
         cards = Array<Card>()
+        score = 0;
         pairNumber = Int.random(in: 2...5)
         for pairIndex in 0..<numberOfPairOfCards{
             
@@ -47,9 +52,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 if cards[chosenIndex].Content == cards[potentialMatch].Content {
                     cards[chosenIndex].isMatched = true
                     cards[potentialMatch].isMatched = true
+                    isMatched(isMatched: true)
                 }
                 indexOfChosenFaceUpCard = nil
             }else{
+                
                 for index in cards.indices {
                     cards[index].isFaceUp = false
                 }
@@ -70,6 +77,15 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
      
      }
      */
+    
+   // mutating func isMatched(isMatched: Bool) {isMatched ? (score += 2) : (score -= 1)}
+    
+    mutating func isMatched(isMatched: Bool) {
+        isMatched ? (score += 2) : (score -= 1)
+        
+    }
+
+    
     
     
     struct Card: Identifiable {

@@ -21,26 +21,15 @@ class EmojiMemoryGame: ObservableObject {
     
     private static func createMemoryGame(theme: Theme) -> (MemoryGame<String>) {
         
-        //let emojis: Array<String> = ["🤥","🥵","💀","😜","🥺","😳"].shuffled()
+        
+        
         let emoji = theme.emojis.shuffled
-        let numberOfPairsOfCards = theme.numberOfPairs ?? Int.random(in: 3...5)
+        let numberOfPairsOfCards = theme.numberOfPairs ?? Int.random(in: 3...6)
         
         return MemoryGame<String>(numberOfPairOfCards: numberOfPairsOfCards) {emoji()[$0]}
         
         
     }
-    
-    
-    
-    
-    
-    /* static func returnTheme() -> Array<String> {
-     let flags: Array<String> = ["🇨🇰","🇦🇿","🇨🇴"].shuffled()
-     let emojis: Array<String> = ["🤥","🥵","💀","😜","🥺","😳"].shuffled()
-     return emojis
-     }*/
-    
-    
     
     //Mark: - Acces to Model
     
@@ -48,34 +37,26 @@ class EmojiMemoryGame: ObservableObject {
         model.cards
     }
     
+    var score: Int {model.score}
+    
     
     //Mark: -Intent(s)
     
     func choose(card: MemoryGame<String>.Card) {
-        
         model.choose(card: card)
-        
     }
-    
     
     func newGame(){
         
         let currentTheme = theme
         var nextTheme : Theme
         
-        
         repeat{
-            
             nextTheme = themes.randomElement()!
-
-        }while nextTheme.id != currentTheme.id
+        }while nextTheme.id == currentTheme.id
         
         theme = nextTheme
-
-        
-        
-        
-        model = EmojiMemoryGame.createMemoryGame(theme: theme)
+        model = EmojiMemoryGame.createMemoryGame(theme: nextTheme)
         
     }
 }

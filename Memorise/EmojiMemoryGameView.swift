@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
+    
     @ObservedObject var viewModel: EmojiMemoryGame
+    
     
     var body: some View {
         
@@ -18,13 +20,13 @@ struct ContentView: View {
                 Text(viewModel.theme.themeName)
                     .font(.system(size:35, weight: .bold))
                 Spacer()
+                
+                
                 NewGameButton().onTapGesture {
                     self.viewModel.newGame()
                 }
             }.padding()
             Spacer()
-            
-            
             
             ZStack{
                 //NewGameButton()
@@ -37,28 +39,13 @@ struct ContentView: View {
                 }
                 .padding()
                 .foregroundColor(viewModel.theme.themColor)
-                //.aspectRatio(0.66, contentMode: .fit)
-                //CustomNavigationView()
-                
             }
+            Text("Score: \(viewModel.score)")                    .font(.system(size:25, weight: .bold))
+            Spacer()
         }
     }
     
-    struct CustomNavigationView: View {
-        
-        var body: some View {
-            
-            VStack{
-                HStack{
-                    Text("Title")
-                        .font(.system(size:35, weight: .bold))
-                    Spacer()
-                    
-                }.padding()
-                Spacer()
-            }
-        }
-    }
+
     
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
@@ -112,9 +99,7 @@ struct ContentView: View {
                     .foregroundColor(Color.white)
                 Text("New Game")
                     .font(.system(size:25, weight: .bold))
-                
             }
-            
         }
     }
 }

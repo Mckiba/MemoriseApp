@@ -17,7 +17,7 @@ let themes: [Theme] = [
     Theme(
         themeName: "Flags",
         emojis: ["🇬🇧", "🇺🇸", "🇹🇷", "🇨🇦", "🇯🇵", "🇳🇴", "🇧🇪", "🇷🇺","🇯🇲"],
-        themColor: .orange,
+        themColor: .green,
         numberOfPairs: 4,
         
         id: 0
@@ -28,7 +28,7 @@ let themes: [Theme] = [
         themeName: "Fruits",
         emojis: ["🍆", "🍑", "🌽", "🍕", "🍎", "🧀","🥓","🍖","🌭"],
         themColor: .pink,
-        numberOfPairs: 5,
+        numberOfPairs: 6,
         
         id: 0
     ),
@@ -44,7 +44,7 @@ let themes: [Theme] = [
     Theme(
         themeName: "Vehicles",
         emojis: ["🚗", "🚕", "🏎", "🚜", "🚚", "🚆", "🚊", "🛩", "🚀"],
-        themColor: .orange,
+        themColor: .purple,
         numberOfPairs: 3,
         id: 4
     ),
@@ -53,7 +53,7 @@ let themes: [Theme] = [
         themeName: "Faces",
         emojis: ["😅","🤓", "😎", "🥺", "🤬", "🤯", "🥶","😜", "😷"],
         themColor: .yellow,
-        numberOfPairs: 3,
+        numberOfPairs: 6,
         id: 5
     ),
 ]
