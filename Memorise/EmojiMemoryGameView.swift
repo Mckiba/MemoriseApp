@@ -18,7 +18,9 @@ struct ContentView: View {
                 Text(viewModel.theme.themeName)
                     .font(.system(size:35, weight: .bold))
                 Spacer()
-                NewGameButton()
+                NewGameButton().onTapGesture {
+                    self.viewModel.newGame()
+                }
             }.padding()
             Spacer()
             
