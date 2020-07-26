@@ -18,17 +18,11 @@ class EmojiMemoryGame: ObservableObject {
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
     }
     
-    
     private static func createMemoryGame(theme: Theme) -> (MemoryGame<String>) {
         
-        
-        
-        let emoji = theme.emojis.shuffled
+        let emoji = theme.emojis.shuffled()
         let numberOfPairsOfCards = theme.numberOfPairs ?? Int.random(in: 3...6)
-        
-        return MemoryGame<String>(numberOfPairOfCards: numberOfPairsOfCards) {emoji()[$0]}
-        
-        
+        return MemoryGame<String>(numberOfPairOfCards: numberOfPairsOfCards) {emoji[$0]}
     }
     
     //Mark: - Acces to Model

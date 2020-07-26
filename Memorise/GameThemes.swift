@@ -18,7 +18,7 @@ let themes: [Theme] = [
         themeName: "Flags",
         emojis: ["🇬🇧", "🇺🇸", "🇹🇷", "🇨🇦", "🇯🇵", "🇳🇴", "🇧🇪", "🇷🇺","🇯🇲"],
         themColor: .green,
-        numberOfPairs: 4,
+        numberOfPairs: 6,
         
         id: 0
     )

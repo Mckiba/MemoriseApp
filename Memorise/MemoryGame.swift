@@ -11,9 +11,8 @@ import Foundation
 struct MemoryGame<CardContent> where CardContent: Equatable {
     
     var pairNumber: Int
-    var cards: Array<Card>
+    private(set) var cards: Array<Card>
     var score: Int
-    
     
     
     var indexOfChosenFaceUpCard: Int? {
@@ -23,9 +22,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         set {
             for index in cards.indices {
                 cards[index].isFaceUp = index == newValue
-                
             }
-            
         }
     }
     
@@ -39,10 +36,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             let content = cardContentFactory(pairIndex)
             cards.append(Card( Content: content ,id: pairIndex * 2))
             cards.append(Card( Content: content, id: pairIndex * 2+1))
-            
         }
-        
-        
     }
     
     mutating func choose(card: Card) {
@@ -67,25 +61,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
     }
     
-    /*  func index(of: Card) -> Int {
-     for index in 0..<cards.count {
-     if self.cards[index].id == of.id{
-     return index
-     }
-     }
-     return 0 //TODO: BOGUS
-     
-     }
-     */
     
-   // mutating func isMatched(isMatched: Bool) {isMatched ? (score += 2) : (score -= 1)}
-    
-    mutating func isMatched(isMatched: Bool) {
-        isMatched ? (score += 2) : (score -= 1)
-        
-    }
-
-    
+    mutating func isMatched(isMatched: Bool) {isMatched ? (score += 2) : (score -= 1)}
     
     
     struct Card: Identifiable {
