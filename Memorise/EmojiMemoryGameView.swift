@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @ObservedObject var viewModel: EmojiMemoryGame
     
+    let newGame: LocalizedStringKey = "New Game"
     var body: some View {
         
         VStack{
@@ -19,17 +20,23 @@ struct ContentView: View {
                 Text(viewModel.theme.themeName)
                     .font(.system(size:35, weight: .bold))
                 Spacer()
-                NewGameButton().onTapGesture {
-                    self.viewModel.newGame()
-                }
+                
+                Button(action:  {
+                    withAnimation(.easeInOut(duration: 2)) {
+                        self.viewModel.newGame()
+                    }
+                }, label: {Text(newGame)
+                    .font(.system(size:23 , weight: .semibold))})
             }.padding()
             Spacer()
             
+            
             ZStack{
-                //NewGameButton()
                 Grid(viewModel.cards) { card in
                     CardView(card: card).onTapGesture {
-                        self.viewModel.choose(card: card)
+                        withAnimation(.linear(duration: 0.7)){
+                            self.viewModel.choose(card: card)
+                        }
                         
                     }.aspectRatio(0.72, contentMode: .fit)
                         .padding(1)
@@ -47,6 +54,20 @@ struct ContentView: View {
     struct CardView : View{
         var card: MemoryGame<String>.Card
         
+        @State private var animatedBonusRemaining: Double = 0
+        
+        private func startBonusTimeRemaining() {
+            
+            
+            animatedBonusRemaining = card.bonusRemaining
+            withAnimation(.linear(duration: card.bonusTimeRemaining)){
+                
+                animatedBonusRemaining = 0
+            }
+        }
+        
+        
+        
         var body: some View{
             GeometryReader{ geometry in
                 self.body(for: geometry.size)
@@ -58,14 +79,24 @@ struct ContentView: View {
             
             if card.isFaceUp || !card.isMatched {
                 ZStack{
-                    Pie(startAngle: Angle.degrees(0-90), endAngle: Angle.degrees(110-90),clockwise: true)
-                        .padding(5)
-                        .opacity(0.4)
-                    Text(self.card.Content)
+                    Group{
+                        if card.isConsumingBonusTime{
+                            Pie(startAngle: Angle.degrees(0-90), endAngle: Angle.degrees(-animatedBonusRemaining*360-90),clockwise: true)
+                                .onAppear(){
+                                    self.startBonusTimeRemaining()
+                            }
+                        }else {
+                            Pie(startAngle: Angle.degrees(0-90), endAngle: Angle.degrees(-card.bonusRemaining*360-90),clockwise: true)
+                        }
+                    } .padding(5).opacity(0.4)
+                        .transition(.identity)
+                    Text(card.Content)
                         .font(Font.system(size: fontSize(for: size)))
+                        .rotationEffect(Angle.degrees(card.isMatched ? 360 :0))
+                        .animation(card.isMatched ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default)
                 }
-                .modifier(Cardify(isFaceUp: card.isFaceUp))
                 .cardify(isFaceUp: card.isFaceUp)
+                .transition(AnyTransition.scale)
             }
         }
         
@@ -81,21 +112,6 @@ struct ContentView: View {
         }
     }
     
-    
-    
-    struct NewGameButton: View {
-        
-        var body: some View{
-            ZStack {
-                
-                RoundedRectangle(cornerRadius: 5)
-                    .frame(width: 100, height: 50)
-                    .foregroundColor(Color.white)
-                Text("New Game")
-                    .font(.system(size:23 , weight: .semibold))
-            }
-        }
-    }
 }
 
 
@@ -103,7 +119,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-       // game.choose(card: game.cards[0])
+        // game.choose(card: game.cards[0])
         return ContentView(viewModel: game)
     }
 }
